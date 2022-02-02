@@ -14,7 +14,7 @@ namespace arepa_diagnostic_example
             {
                 foreach (var result in resultList)
                 {
-                    Console.WriteLine($"{result.Name} : {result.Value}");
+                    Console.WriteLine($"{result.Name} : {result.Value} {result.Symbol}");
                 }
             }
 
@@ -24,6 +24,7 @@ namespace arepa_diagnostic_example
                 Thread.Sleep(1000);
             }
 
+            
 
         }
     }

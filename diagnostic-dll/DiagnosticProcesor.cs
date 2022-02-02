@@ -6,19 +6,22 @@ namespace diagnostic_dll
 {
     public class DiagnosticProcessor
     {
-        private readonly List<IDiagnosticInfo> Counters;
+        private readonly List<IDiagnosticInfo> _counters;
         public DiagnosticProcessor()
         {
-            Counters = new List<IDiagnosticInfo>();
+            _counters = new List<IDiagnosticInfo>();
         }
 
-        public void AddCounter(IDiagnosticInfo Counter)
+        internal void AddCounter(IDiagnosticInfo Counter)
         {
-            Counters.Add(Counter);
+            _counters.Add(Counter);
         }
 
         public Thread GetDiagnosticThread(Action<IEnumerable<DiagnosticResult>> callBack, Action<string> callBackError = null)
         {
+            if (_counters.Count == 0)
+                throw new Exception("Empty counters");
+
             return new Thread(() =>
             {
                 try
@@ -38,15 +41,15 @@ namespace diagnostic_dll
         private IEnumerable<DiagnosticResult> GetValues()
         {
             // desechamos las primeras lecturas
-            foreach (var counter in Counters)
+            foreach (var counter in _counters)
                 counter.GetValue();
 
             // Esperamos para tener lecturas precisas
             Thread.Sleep(500);
 
             // Retornamos las lecturas posta
-            foreach (var counter in Counters)
-                yield return new DiagnosticResult() { Name = counter.GetCounterName(), Value = counter.GetValue() };
+            foreach (var counter in _counters)
+                yield return new DiagnosticResult() { Name = counter.GetCounterName(), Value = counter.GetValue(), Symbol=counter.GetSymbol() };
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace diagnostic_dll
 {
-    public class InfoProcess
+    internal class InfoProcess
     {
-        public static string GetProcessName(Process process)
+        internal static string GetProcessName(Process process)
         {
             var name = string.Empty;
             var performanceCategory = new PerformanceCounterCategory("Process").GetInstanceNames();

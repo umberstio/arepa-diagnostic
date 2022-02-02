@@ -4,9 +4,10 @@ using System.Text;
 
 namespace diagnostic_dll
 {
-    public interface IDiagnosticInfo
+    internal interface IDiagnosticInfo
     {
-        string GetValue();
+        double GetValue();
         string GetCounterName();
+        string GetSymbol();
     }
 }
